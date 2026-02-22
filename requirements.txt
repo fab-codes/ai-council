@@ -1,0 +1,8 @@
+python-dotenv
+pydantic
+
+langchain
+langgraph
+
+langchain_ollama
+langchain_qdrant
