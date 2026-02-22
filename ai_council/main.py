@@ -1,3 +1,4 @@
+from langchain_core.messages import HumanMessage
 from ai_council.graph.compile_graph import compile_graph
 from ai_council.graph.states.general_state import GeneralState
 from ai_council.utils.logger import get_logger
@@ -10,10 +11,13 @@ async def start_network() -> dict:
 
     config = {"configurable": {"thread_id": "1"}}
 
+    opening = "Ciao a tutti! Cosa pensate del libero arbitrio?"
+
     initial_state: GeneralState = {
+        "messages": [HumanMessage(content=f"[Human]: {opening}")],
         "tick": 0,
         "last_speaker": "Human",
-        "last_message": "Ciao a tutti! Cosa pensate del libero arbitrio?",
+        "last_message": opening,
     }
 
     result = await app.ainvoke(initial_state, config)

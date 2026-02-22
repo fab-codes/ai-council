@@ -9,8 +9,7 @@ from ai_council.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-SYSTEM_PROMPT = """Sei {name}. Un essere primitivo.
-Non conosci tecnologia. Hai fame, paura, curiosità.
+SYSTEM_PROMPT = """Sei {name}.
 
 MEMORIA (attraverso i 2 tool che hai a disposizione):
 - Usa SEMPRE "recall" prima di rispondere.
@@ -50,12 +49,8 @@ class PrimitiveAgent:
     async def process(self, state: GeneralState) -> dict:
         try:
             tick = state["tick"]
-            last_speaker = state["last_speaker"]
-            last_message = state["last_message"]
 
-            incoming = HumanMessage(content=f"[{last_speaker}]: {last_message}")
-
-            result = await self.agent.ainvoke({"messages": [incoming]})
+            result = await self.agent.ainvoke({"messages": state["messages"]})
             response = result["messages"][-1].content
 
             print(f"\n{'─' * 60}")
@@ -65,6 +60,7 @@ class PrimitiveAgent:
             print(f"{'─' * 60}")
 
             return {
+                "messages": [HumanMessage(content=f"[{self.name}]: {response}")],
                 "tick": tick + 1,
                 "last_speaker": self.name,
                 "last_message": response,

@@ -1,7 +1,7 @@
-from typing import TypedDict
+from langgraph.graph import MessagesState
 
 
-class GeneralState(TypedDict):
+class GeneralState(MessagesState):
     tick: int
     last_speaker: str
     last_message: str
