@@ -1,10 +1,10 @@
 # AI Council
 
-Una simulazione di vita artificiale conversazionale basata su agenti AI con memoria persistente. Sei esseri primitivi interagiscono tra loro, si evolvono attraverso le esperienze e costruiscono ricordi individuali nel tempo.
+Una simulazione di vita artificiale conversazionale basata su agenti AI con memoria persistente. Tre esseri interagiscono tra loro, si evolvono attraverso le esperienze e costruiscono ricordi individuali nel tempo.
 
 ## Come funziona
 
-Sei agenti (`Angela, Eva, Kevin, Giovanni, Roberto, Mimma`) si passano messaggi a turno in un grafo [LangGraph](https://github.com/langchain-ai/langgraph). Ogni agente ha una memoria privata su [Qdrant](https://qdrant.tech/) e due abilità:
+Tre agenti (`Angela, Eva, Kevin`) si passano messaggi a turno in un grafo [LangGraph](https://github.com/langchain-ai/langgraph). Ogni agente ha una memoria privata su [Qdrant](https://qdrant.tech/) e due abilità:
 
 - `recall` — recupera ricordi rilevanti prima di rispondere
 - `remember` — salva esperienze importanti nella memoria a lungo termine
@@ -16,7 +16,8 @@ La simulazione termina dopo un numero configurabile di tick (`MAX_TICKS` in `rou
 | Componente | Tecnologia |
 |---|---|
 | Grafo agenti | LangGraph |
-| LLM locale | Ollama (`llama3.2:3b` o compatibile con tool calling) |
+| LLM (locale) | Ollama (`granite4:3b` o compatibile con tool calling) |
+| LLM (cloud) | Google Gemini (`gemini-2.5-flash`) |
 | Embedding | Ollama (`embeddinggemma`) |
 | Memoria vettoriale | Qdrant |
 
@@ -37,7 +38,7 @@ cp .env.example .env
 # Modifica .env con i tuoi valori
 
 # 3. Installa le dipendenze
-pip install -r requirements.txt
+pip install -e .
 
 # 4. Avvia la simulazione
 python -m ai_council.main
@@ -48,13 +49,23 @@ python -m ai_council.main
 Copia `.env.example` in `.env` e imposta le variabili:
 
 ```env
+# LLM: "ollama" (default) oppure "google"
+LLM_CHOICE=ollama
+
+# Ollama
 OLLAMA_URL=http://localhost:11434
-OLLAMA_CHAT_MODEL=llama3.2:3b
+OLLAMA_CHAT_MODEL=granite4:3b
 OLLAMA_EMBEDDING_MODEL=embeddinggemma
+
+# Google Gemini (solo se LLM_CHOICE=google)
+GOOGLE_API_KEY=
+GOOGLE_MODEL_ID=gemini-2.5-flash
+
+# Qdrant
 QDRANT_URL=http://localhost:6333
 ```
 
-> Il modello chat deve supportare il tool calling strutturato. Modelli consigliati: `llama3.1:8b`, `llama3.2:3b`, `qwen2.5:7b`.
+> Il modello Ollama deve supportare il tool calling strutturato. Modelli consigliati: `llama3.1:8b`, `granite4:3b`, `qwen2.5:7b`.
 
 ## Struttura del progetto
 
@@ -64,7 +75,7 @@ ai_council/
 ├── config/          # AppConfig — variabili d'ambiente
 ├── graph/
 │   ├── nodes/       # Factory dei nodi LangGraph
-│   ├── states/      # GeneralState (tick, last_speaker, last_message)
+│   ├── states/      # GeneralState (messages, tick, last_speaker, last_message)
 │   ├── compile_graph.py
 │   └── router.py    # Logica di routing round-robin + MAX_TICKS
 ├── tools/           # Tool remember/recall con Qdrant

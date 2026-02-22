@@ -1,8 +1,8 @@
 from langgraph.graph import END
 from ai_council.graph.states.general_state import GeneralState
 
-MAX_TICKS = 20
-AGENTS = ["Angela", "Eva", "Kevin", "Giovanni", "Roberto", "Mimma"]
+MAX_TICKS = 10
+AGENTS = ["Angela", "Eva", "Kevin"]
 AGENT_NODES = [f"{name.lower()}_node" for name in AGENTS]
 
 
