@@ -10,7 +10,7 @@ class AppConfig:
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
     OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
-    OLLAMA_CHAT_MODEL = os.getenv("OOLLAMA_CHAT_MODELL", "mistral-nemo")
+    OLLAMA_CHAT_MODEL = os.getenv("OLLAMA_CHAT_MODEL", "mistral-nemo")
     OLLAMA_EMBEDDING_MODEL = os.getenv("OLLAMA_EMBEDDING_MODEL", "embeddinggemma")
 
     QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
