@@ -16,7 +16,7 @@ La simulazione termina dopo un numero configurabile di tick (`MAX_TICKS` in `rou
 | Componente | Tecnologia |
 |---|---|
 | Grafo agenti | LangGraph |
-| LLM locale | Ollama (`llama3.2:3b` o compatibile con tool calling) |
+| LLM locale | Ollama (`mistral-nemo` o compatibile con tool calling) |
 | Embedding | Ollama (`embeddinggemma`) |
 | Memoria vettoriale | Qdrant |
 
@@ -49,12 +49,12 @@ Copia `.env.example` in `.env` e imposta le variabili:
 
 ```env
 OLLAMA_URL=http://localhost:11434
-OLLAMA_CHAT_MODEL=llama3.2:3b
+OLLAMA_CHAT_MODEL=mistral-nemo
 OLLAMA_EMBEDDING_MODEL=embeddinggemma
 QDRANT_URL=http://localhost:6333
 ```
 
-> Il modello chat deve supportare il tool calling strutturato. Modelli consigliati: `llama3.1:8b`, `llama3.2:3b`, `qwen2.5:7b`.
+> Il modello chat deve supportare il tool calling strutturato. Modelli consigliati: `llama3.1:8b`, `mistral-nemo`, `qwen2.5:7b`.
 
 ## Struttura del progetto
 
