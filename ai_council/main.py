@@ -18,9 +18,6 @@ async def start_network() -> dict:
 
     result = await app.ainvoke(initial_state, config)
 
-    logger.info("final_state")
-    logger.info(result)
-
     return result
 
 

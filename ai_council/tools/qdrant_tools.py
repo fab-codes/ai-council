@@ -9,7 +9,7 @@ from ai_council.utils.logger import get_logger
 logger = get_logger(__name__)
 
 
-def create_qdrant_memory(agent_name: str) -> tuple[list, QdrantVectorStore]:
+def create_qdrant_memory(agent_name: str) -> list:
     """Creates the 'remember' and 'recall' tools and the vector store for a specific agent."""
     client = QdrantClient(url=AppConfig.QDRANT_URL)
 
@@ -64,4 +64,4 @@ def create_qdrant_memory(agent_name: str) -> tuple[list, QdrantVectorStore]:
 
         return memories
 
-    return [remember, recall], vector_store
+    return [remember, recall]
